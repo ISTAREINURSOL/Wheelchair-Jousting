@@ -24,6 +24,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/github-integration/scripts/GistItem.gd"
 }, {
+"base": "",
+"class": "GitAPI",
+"language": "NativeScript",
+"path": "res://addons/godot-git-plugin/git_api.gdns"
+}, {
 "base": "HBoxContainer",
 "class": "InvitationItem",
 "language": "GDScript",
@@ -43,6 +48,7 @@ _global_script_class_icons={
 "Actor": "",
 "ContributorClass": "",
 "GistItem": "",
+"GitAPI": "",
 "InvitationItem": "",
 "Player": "",
 "RepositoryItem": ""
@@ -50,7 +56,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="THE SEX GAME"
+config/name="Wheelchair Jousting"
 run/main_scene="res://2D/Node2D.tscn"
 config/icon="res://icon.png"
 
@@ -68,9 +74,18 @@ window/size/height=720
 window/size/resizable=false
 window/stretch/mode="2d"
 
+[editor]
+
+version_control_autoload_on_startup=true
+version_control_plugin_name="GitAPI"
+
 [editor_plugins]
 
 enabled=PoolStringArray( "res://addons/gdfxr/plugin.cfg", "res://addons/github-integration/plugin.cfg" )
+
+[gdnative]
+
+singletons=[ "res://addons/godot-git-plugin/git_api.gdnlib" ]
 
 [gui]
 

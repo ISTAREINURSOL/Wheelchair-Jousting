@@ -20,7 +20,7 @@ var canJump
 var boolFastFall
 var once = false
 var Dir
-var _delta
+
 
 export var rocketJumpStr = 900
 var screen_size # Size of the game window.
@@ -36,8 +36,6 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
-	_delta = delta
-	
 	var xDir = (
 		Input.get_action_strength("move_right") - Input.get_action_strength("move_left") 
 		)
@@ -98,6 +96,6 @@ func coyoteTime():
 func fastFall():
 	grav = clamp(grav, 2000, 4000)
 	if boolFastFall:
-		grav = (grav * 1.5) * _delta
+		grav = grav * 1.5
 	else:
-		grav = (grav / 1.5) * _delta
+		grav = grav / 1.5

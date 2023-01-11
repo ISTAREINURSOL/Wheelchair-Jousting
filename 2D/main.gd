@@ -17,6 +17,6 @@ func _process(_delta):
 	debug()
 
 func debug():
-	#print(str(Engine.get_frames_per_second()))
+	print(str(Engine.get_frames_per_second()))
 	#print(delta2)
 	pass

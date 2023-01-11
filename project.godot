@@ -57,7 +57,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Wheelchair Jousting"
-run/main_scene="res://2D/Node2D.tscn"
+run/main_scene="res://2D/Arena.tscn"
 config/icon="res://icon.png"
 
 [autoload]

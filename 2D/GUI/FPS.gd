@@ -12,8 +12,9 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	var Charges = str($"/root/Node2D/Player".rocketCharges + 1)
+	var Charges = str($"/root/Node2D/Player".rocketCharges)
 	var Boosters = str($"/root/Node2D/Player/Dash cooldown".is_stopped())
 	var Speed = str($"/root/Node2D/Player".speed.x)
+	var Frames = str(Engine.get_frames_per_second())
 
-	text = str(Engine.get_frames_per_second()) + '\n' + "Boosters: " + Boosters + '\n' + "Charges Left: " + Charges + '\n' + "Speed: " + Speed
+	text = Frames + '\n' + "Boosters: " + Boosters + '\n' + "Charges Left: " + Charges + '\n' + "Speed: " + Speed

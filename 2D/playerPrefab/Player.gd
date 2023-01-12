@@ -20,9 +20,10 @@ var canJump
 var boolFastFall
 var once = false
 var Dir
-var rocketCharges = 1
+var rocketCharges = 2
 var DashCool = true
 var SPEEDWOOOO = false
+
 
 export var rocketJumpStr = 900
 var screen_size # Size of the game window.
@@ -60,38 +61,44 @@ func _physics_process(delta):
 	elif xDir == -1:
 		velocity.x = speed.x * -1
 		Dir = false
-
-	if Input.is_action_just_pressed("Dash"):
-		if xDir != 0:
-			if DashCool:
-				speed.x = 1200
-				SPEEDWOOOO = true
-		else:
-			if DashCool:
-				if Dir == true and not xDir == 1:
-					velocity.x += 1200
-				elif Dir == false and not xDir == -1:
-					velocity.x -= 1200
-		if rocketCharges == 0:
-			DashCool = false
+		
+	if rocketCharges == 0:
+		if !once:
 			$"Dash cooldown".start()
 		else:
+			pass
+		once = true
+		print("BALLS")
+	else:
+		once = false
+
+	if Input.is_action_just_pressed("Dash"):
+		if rocketCharges != 0:
 			rocketCharges -= 1
+			if xDir != 0:
+				if DashCool:
+					speed.x = 1200
+					SPEEDWOOOO = true
+			else:
+				if DashCool:
+					if Dir == true and not xDir == 1:
+						velocity.x += 1200
+					elif Dir == false and not xDir == -1:
+						velocity.x -= 1200
+		else:
+			pass
 
 	if jumping:
-		if DashCool:
-			if canJump:
-				velocity.y -= rocketJumpStr
-				if rocketCharges == 0:
-					DashCool = false
-					$"Dash cooldown".start()
-				else:
+		if canJump:
+			if DashCool:
+				if rocketCharges != 0:
+					velocity.y -= rocketJumpStr
 					rocketCharges -= 1
+				else:
+					pass
 	elif jumpCancel:
 		velocity.y *= jumpDampen
-		
-	if is_on_floor():
-		rocketCharges = 1
+	
 
 	if 	SPEEDWOOOO:
 		#yield(get_tree().create_timer(.75), "timeout")
@@ -105,7 +112,7 @@ func _physics_process(delta):
 
 	if not is_on_floor() and rocketCharges <= 0:
 		coyoteTime()
-	if is_on_floor() or rocketCharges > 0:
+	if is_on_floor() and rocketCharges > 0:
 		canJump = true
 	
 	if Input.is_action_pressed("move_down"):
@@ -131,5 +138,5 @@ func fastFall():
 
 
 func _on_Dash_cooldown_timeout():
+	rocketCharges = 2
 	DashCool = true
-	rocketCharges = 1

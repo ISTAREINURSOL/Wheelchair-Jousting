@@ -35,6 +35,7 @@ one_way_collision_margin = 0.0
 shape = SubResource( 1 )
 
 [node name="Dash cooldown" type="Timer" parent="."]
+wait_time = 0.75
 one_shot = true
 
 [connection signal="timeout" from="Dash cooldown" to="." method="_on_Dash_cooldown_timeout"]

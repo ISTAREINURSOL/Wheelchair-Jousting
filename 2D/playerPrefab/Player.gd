@@ -65,12 +65,7 @@ func _physics_process(delta):
 	if rocketCharges == 0:
 		if !once:
 			$"Dash cooldown".start()
-		else:
-			pass
 		once = true
-		print("BALLS")
-	else:
-		once = false
 
 	if Input.is_action_just_pressed("Dash"):
 		if rocketCharges != 0:
@@ -88,14 +83,10 @@ func _physics_process(delta):
 		else:
 			pass
 
-	if jumping:
-		if canJump:
-			if DashCool:
-				if rocketCharges != 0:
-					velocity.y -= rocketJumpStr
-					rocketCharges -= 1
-				else:
-					pass
+	if jumping and canJump:
+			if rocketCharges != 0:
+				velocity.y -= rocketJumpStr
+				rocketCharges -= 1
 	elif jumpCancel:
 		velocity.y *= jumpDampen
 	
@@ -140,3 +131,4 @@ func fastFall():
 func _on_Dash_cooldown_timeout():
 	rocketCharges = 2
 	DashCool = true
+	once = false

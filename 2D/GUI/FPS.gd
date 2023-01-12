@@ -16,5 +16,7 @@ func _process(_delta):
 	var Boosters = str($"/root/Node2D/Player/Dash cooldown".is_stopped())
 	var Speed = str($"/root/Node2D/Player".speed.x)
 	var Frames = str(Engine.get_frames_per_second())
+	var PosX = str(round($"/root/Node2D/Player".position.x))
+	var PosY = str(round($"/root/Node2D/Player".position.y))
 
-	text = Frames + '\n' + "Boosters: " + Boosters + '\n' + "Charges Left: " + Charges + '\n' + "Speed: " + Speed
+	text = Frames + '\n' + PosX + ", " + PosY + '\n' + "Boosters: " + Boosters + '\n' + "Charges Left: " + Charges + '\n' + "Speed: " + Speed

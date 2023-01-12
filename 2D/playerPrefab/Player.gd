@@ -20,7 +20,9 @@ var canJump
 var boolFastFall
 var once = false
 var Dir
-
+var rocketCharges = 1
+var DashCool = true
+var SPEEDWOOOO = false
 
 export var rocketJumpStr = 900
 var screen_size # Size of the game window.
@@ -36,29 +38,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
-	var xDir = (
-		Input.get_action_strength("move_right") - Input.get_action_strength("move_left") 
-		)
 	
-	if xDir == 1:
-		velocity.x = speed.x
-		Dir = true
-	elif xDir == -1:
-		velocity.x = speed.x * -1
-		Dir = false
-	elif xDir == 0:
-		if is_on_floor():
-			velocity.x = velocity.x / 1.1
-		else:
-			velocity.x = velocity.x / 1.05
-			
-	if Input.is_action_just_pressed("Dash"):
-		if Dir == true and not xDir == 1:
-			velocity.x += 1200
-		elif Dir == false and not xDir == -1:
-			xDir = 0
-			velocity.x -= 1200
-		
 	velocity.y += grav * delta 
 	var _falling = velocity.y > 0 and not is_on_floor()
 	var jumping = Input.is_action_just_pressed("jump") #and is_on_floor()
@@ -66,36 +46,90 @@ func _physics_process(delta):
 	var _idle = is_on_floor() and is_zero_approx(velocity.x)
 	var _onFloorWheel = is_on_floor() and not is_zero_approx(velocity.x)
 	
-	if not is_on_floor():
-		coyoteTime()
-	if is_on_floor():
-		canJump = true
-	
-	if Input.is_action_pressed("move_down"):
-		boolFastFall = true
-		fastFall()
-	elif not Input.is_action_pressed("move_down"):
-		boolFastFall = false
-		fastFall()
+	var xDir = (
+		Input.get_action_strength("move_right") - Input.get_action_strength("move_left") 
+		)
+	if xDir == 0:
+		if is_on_floor():
+			velocity.x = velocity.x / 1.1
+		else:
+			velocity.x = velocity.x / 1.05
+	elif xDir == 1:
+		velocity.x = speed.x
+		Dir = true
+	elif xDir == -1:
+		velocity.x = speed.x * -1
+		Dir = false
+
+	if Input.is_action_just_pressed("Dash"):
+		if xDir != 0:
+			if DashCool:
+				speed.x = 1200
+				SPEEDWOOOO = true
+		else:
+			if DashCool:
+				if Dir == true and not xDir == 1:
+					velocity.x += 1200
+				elif Dir == false and not xDir == -1:
+					velocity.x -= 1200
+		if rocketCharges == 0:
+			DashCool = false
+			$"Dash cooldown".start()
+		else:
+			rocketCharges -= 1
 
 	if jumping:
-		if canJump:
-			velocity.y -= rocketJumpStr
+		if DashCool:
+			if canJump:
+				velocity.y -= rocketJumpStr
+				if rocketCharges == 0:
+					DashCool = false
+					$"Dash cooldown".start()
+				else:
+					rocketCharges -= 1
 	elif jumpCancel:
 		velocity.y *= jumpDampen
 		
+	if is_on_floor():
+		rocketCharges = 1
+
+	if 	SPEEDWOOOO:
+		#yield(get_tree().create_timer(.75), "timeout")
+		if is_on_floor():
+			speed.x = speed.x / 1.1 
+		else:
+			speed.x = speed.x / 1.05
+		speed.x = clamp(speed.x, 300, 1200)
+		if speed.x == 300:
+			SPEEDWOOOO = false
+
+	if not is_on_floor() and rocketCharges <= 0:
+		coyoteTime()
+	if is_on_floor() or rocketCharges > 0:
+		canJump = true
+	
+	if Input.is_action_pressed("move_down"):
+		fastFall()
+	elif not Input.is_action_pressed("move_down"):
+		fastFall()
+
 	velocity = move_and_slide(velocity, UP_DIRECTION)
 	if Input.is_action_just_pressed("reset"):
 		position = startingPos
-	
-	
+
+
 func coyoteTime():
 	yield(get_tree().create_timer(.1), "timeout")
 	canJump = false
 
 func fastFall():
-	grav = clamp(grav, 2000, 4000)
-	if boolFastFall:
+	grav = clamp(grav, 2000, 3500)
+	if Input.is_action_pressed("move_down"):
 		grav = grav * 1.5
 	else:
 		grav = grav / 1.5
+
+
+func _on_Dash_cooldown_timeout():
+	DashCool = true
+	rocketCharges = 1

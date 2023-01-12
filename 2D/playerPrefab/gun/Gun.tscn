@@ -1,23 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://nerdGun.png" type="Texture" id=1]
 [ext_resource path="res://2D/playerPrefab/gun/NerdGun.gd" type="Script" id=2]
-[ext_resource path="res://2D/playerPrefab/gun/Boolet.gd" type="Script" id=3]
-
-[sub_resource type="CapsuleShape2D" id=1]
 
 [node name="NerdGun" type="Node2D"]
 script = ExtResource( 2 )
-
-[node name="Projectile" type="Area2D" parent="."]
-position = Vector2( 96, -14 )
-rotation = 1.571
-scale = Vector2( 1.02, 1.02 )
-script = ExtResource( 3 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Projectile"]
-scale = Vector2( 1, 1 )
-shape = SubResource( 1 )
 
 [node name="NerdSprite" type="Sprite" parent="."]
 position = Vector2( 1.52588e-05, 0 )

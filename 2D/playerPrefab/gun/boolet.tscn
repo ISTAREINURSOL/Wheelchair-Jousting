@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://sussy.png" type="Texture" id=1]
+[ext_resource path="res://2D/playerPrefab/gun/Boolet.gd" type="Script" id=2]
+
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 4.90117
+height = 7.84637
+
+[node name="Projectile" type="Area2D"]
+script = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 96, -14 )
+rotation = 1.571
+scale = Vector2( 1.02, 1.02 )
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 96.5696, -14.0076 )
+rotation = 1.571
+scale = Vector2( 0.0130119, 0.024885 )
+texture = ExtResource( 1 )

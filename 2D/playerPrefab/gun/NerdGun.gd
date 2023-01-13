@@ -20,6 +20,8 @@ func _process(_delta):
 	elif rotation_degrees <= -1:
 		rotation_degrees = 359
 	if once and Input.is_action_pressed("Shoot"):
+		#put fire here lmao
+		$"/root/Arena".summonBoolet()
 		$"/root/Arena/Projectile".fire()
 		$"FireRate".start()
 		once = false

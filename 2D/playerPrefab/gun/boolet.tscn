@@ -10,6 +10,11 @@ height = 7.84637
 [node name="Projectile" type="Area2D"]
 script = ExtResource( 2 )
 
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+position = Vector2( 95.7638, -13.9308 )
+rotation = 1.571
+scale = Vector2( 0.52521, 0.911583 )
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 96, -14 )
 rotation = 1.571
@@ -21,3 +26,5 @@ position = Vector2( 96.5696, -14.0076 )
 rotation = 1.571
 scale = Vector2( 0.0130119, 0.024885 )
 texture = ExtResource( 1 )
+
+[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]

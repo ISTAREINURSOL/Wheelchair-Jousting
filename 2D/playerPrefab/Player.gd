@@ -10,19 +10,25 @@ extends KinematicBody2D
 
 const UP_DIRECTION = Vector2.UP
 
-export var speed = Vector2(300, 0) # How fast the player will move (pixels/sec).
+
 export onready var grav = ProjectSettings.get("physics/2d/default_gravity")
+export var speed = Vector2(300, 0) # How fast the player will move (pixels/sec).
 export var jumpDampen = 0.35
 export var momentumDampen = 0.1
+
+
+onready var boolet = preload("res://2D/playerPrefab/gun/boolet.tscn")
 var velocity = Vector2.ZERO #defines the velocity
+var rocketCharges = 2
+var once = false
+var bam = true
+var DashCool = true
+var SPEEDWOOOO = false
 var startingPos
 var canJump
 var boolFastFall
-var once = false
 var Dir
-var rocketCharges = 2
-var DashCool = true
-var SPEEDWOOOO = false
+var bulletsPresent = 0
 
 
 export var rocketJumpStr = 900
@@ -114,6 +120,16 @@ func _physics_process(delta):
 	velocity = move_and_slide(velocity, UP_DIRECTION)
 	if Input.is_action_just_pressed("reset"):
 		position = startingPos
+		
+	var bullet = boolet.instance()
+	if Input.is_action_pressed("Shoot") and bam:
+		get_node("/root/Arena").add_child(bullet, true)
+		bullet.global_position = position
+		bullet.rotation_degrees = $"/root/Arena/Player/NerdGun".rotation_degrees
+		$"FireRate".start()
+		bulletsPresent += 1
+		bam = false
+	
 
 
 func coyoteTime():
@@ -132,3 +148,7 @@ func _on_Dash_cooldown_timeout():
 	rocketCharges = 2
 	DashCool = true
 	once = false
+
+
+func _on_FireRate_timeout():
+	bam = true

@@ -30,7 +30,12 @@ one_way_collision_margin = 0.0
 [node name="mansCollision" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
 
+[node name="FireRate" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
 [node name="Dash cooldown" type="Timer" parent="."]
 one_shot = true
 
+[connection signal="timeout" from="FireRate" to="." method="_on_FireRate_timeout"]
 [connection signal="timeout" from="Dash cooldown" to="." method="_on_Dash_cooldown_timeout"]

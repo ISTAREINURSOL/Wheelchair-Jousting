@@ -19,5 +19,6 @@ func _process(_delta):
 	var PosX = str(round($"/root/Arena/Player".position.x))
 	var PosY = str(round($"/root/Arena/Player".position.y))
 	var Rotate = str(round($"/root/Arena/Player/NerdGun".rotation_degrees))
+	var bulletsPresent = str($"/root/Arena/Player".bulletsPresent)
 
-	text = Frames + '\n' + PosX + ", " + PosY + '\n' + "Boosters: " + Boosters + '\n' + "Charges Left: " + Charges + '\n' + "Speed: " + Speed + '\n' + Rotate
+	text = Frames + '\n' + PosX + ", " + PosY + '\n' + "Boosters: " + Boosters + '\n' + "Charges Left: " + Charges + '\n' + "Speed: " + Speed + '\n' + Rotate + '\n' + "Entities: " + bulletsPresent

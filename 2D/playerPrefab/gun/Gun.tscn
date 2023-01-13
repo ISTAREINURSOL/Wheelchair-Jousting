@@ -11,9 +11,3 @@ position = Vector2( 1.52588e-05, 0 )
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 1 )
 offset = Vector2( 700, 0 )
-
-[node name="FireRate" type="Timer" parent="."]
-wait_time = 0.5
-one_shot = true
-
-[connection signal="timeout" from="FireRate" to="." method="_on_FireRate_timeout"]

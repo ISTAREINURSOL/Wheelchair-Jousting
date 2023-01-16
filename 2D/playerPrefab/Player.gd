@@ -135,6 +135,7 @@ func Player_Controlled():
 	var bullet = boolet.instance()
 	if Input.is_action_pressed("Shoot") and bam:
 		get_node("/root/Arena").add_child(bullet, true)
+		bullet.assign("P1")
 		bullet.global_position = position
 		bullet.rotation_degrees = $"/root/Arena/Player/NerdGun".rotation_degrees
 		$"FireRate".start()
@@ -164,6 +165,11 @@ func _on_FireRate_timeout():
 
 
 func _on_Area2D_area_entered(area):
+	match area.who:
+		"P1":
+			print("OUCH FUCK THAT HURT")
+		_:
+			print("i fucked up somehow")
 	area.queue_free()
 	$"/root/Arena/Player".bulletsPresent -= 1
 

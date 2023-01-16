@@ -4,21 +4,20 @@ extends Area2D
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
-var gOOO = false
+var who = "null"
 var hidden = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	#hide()
 	pass
 
+func assign(owner):
+	who = owner
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	#show()
 	move_local_x(500 * _delta)
 	if hidden:
-		hide()
 		queue_free()
 		$"/root/Arena/Player".bulletsPresent -= 1
 

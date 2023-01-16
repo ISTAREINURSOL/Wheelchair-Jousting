@@ -15,11 +15,12 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
+	#show()
 	move_local_x(500 * _delta)
 	if hidden:
-		$"/root/Arena/Player".bulletsPresent -= 1
+		hide()
 		queue_free()
-
+		$"/root/Arena/Player".bulletsPresent -= 1
 
 func _on_VisibilityNotifier2D_screen_exited():
 	hidden = true

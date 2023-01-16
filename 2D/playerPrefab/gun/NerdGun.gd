@@ -12,8 +12,13 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
+	pass
+
+
+func update():
 	look_at(get_global_mouse_position())
 	if rotation_degrees >= 360:
 		rotation_degrees = 0
 	elif rotation_degrees <= -1:
 		rotation_degrees = 359
+	

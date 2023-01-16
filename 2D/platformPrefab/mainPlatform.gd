@@ -18,4 +18,5 @@ func _process(delta):
 
 func _on_Area2D_area_entered(area):
 	area.queue_free()
+	$"/root/Arena/Player".bulletsPresent -= 1
 	pass

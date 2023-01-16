@@ -22,6 +22,7 @@ var velocity = Vector2.ZERO #defines the velocity
 var rocketCharges = 2
 var once = false
 var bam = true
+var AAAA = true
 var DashCool = true
 var SPEEDWOOOO = false
 var startingPos
@@ -68,7 +69,7 @@ func _physics_process(delta):
 		velocity.x = speed.x * -1
 		Dir = false
 		
-	if rocketCharges == 0:
+	if rocketCharges == 0 or is_on_floor() and rocketCharges < 2:
 		if !once:
 			$"Dash cooldown".start()
 		once = true

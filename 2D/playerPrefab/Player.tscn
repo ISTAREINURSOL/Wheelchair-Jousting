@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://nerd2.jpg" type="Texture" id=1]
 [ext_resource path="res://2D/playerPrefab/Player.gd" type="Script" id=2]
 [ext_resource path="res://2D/playerPrefab/gun/Gun.tscn" type="PackedScene" id=3]
+[ext_resource path="res://2D/playerPrefab/Area2D.gd" type="Script" id=4]
 
 [sub_resource type="CircleShape2D" id=2]
 radius = 69.0072
@@ -32,6 +33,7 @@ one_way_collision_margin = 0.0
 
 [node name="Area2D" type="Area2D" parent="."]
 scale = Vector2( 0.123508, 0.12241 )
+script = ExtResource( 4 )
 
 [node name="mansCollision" type="CollisionShape2D" parent="Area2D"]
 scale = Vector2( 8.09664, 8.16927 )

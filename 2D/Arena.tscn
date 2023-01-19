@@ -25,9 +25,14 @@ position = Vector2( 332, 496 )
 scale = Vector2( 0.75, 0.75 )
 
 [node name="CPU" parent="." instance=ExtResource( 1 )]
-position = Vector2( 950, 494 )
+position = Vector2( 638, 502 )
 scale = Vector2( 0.75, 0.75 )
-type = "Void"
+type = "CPU"
+
+[node name="CPU2" parent="." instance=ExtResource( 1 )]
+position = Vector2( 715, 126 )
+scale = Vector2( 0.75, 0.75 )
+type = "CPU"
 
 [node name="platforms" type="Node" parent="."]
 

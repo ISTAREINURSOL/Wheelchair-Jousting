@@ -23,3 +23,4 @@ func _process(_delta):
 
 func _on_VisibilityNotifier2D_screen_exited():
 	hidden = true
+	pass

@@ -25,11 +25,14 @@ var once = false
 var bam = true
 var DashCool = true
 var SPEEDWOOOO = false
+var bulletsPresent = 0
 var startingPos
 var canJump
 var boolFastFall
 var Dir
-var bulletsPresent = 0
+var knockback = 1
+var bruh = "null"
+var who = "test"
 
 export var rocketJumpStr = 900
 var screen_size # Size of the game window.
@@ -39,12 +42,22 @@ var screen_size # Size of the game window.
 func _ready():
 	startingPos = position
 	screen_size = get_viewport_rect().size
+	OS.center_window()
 	canJump = false
 	match type:
 		"Player":
 			print("CLIENT / P1 SPAWNED")
 		"Void": #not assigned control
-			print("CPU / P2 SPAWNED")
+			print("VOID / P2 SPAWNED")
+		"CPU":
+			print("DIDNT CODE THAT YET DUMBASS")
+			print("VOID / P2 SPAWNED")
+			type = "Void"
+		_:
+			print("INVALID STRING DUMBASS")
+			print("FALLING BACK TO VOID BEHAVIOUR")
+			print("VOID / P2 SPAWNED")
+			type = "Void"
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -54,8 +67,17 @@ func _physics_process(delta):
 		"Player":
 			Player_Controlled()
 		"Void": #not assigned control
-			velocity = move_and_slide(velocity, UP_DIRECTION)
+			No_Control()
+
+func No_Control():
+	velocity = move_and_slide(velocity, UP_DIRECTION)
+	if is_on_floor():
+		velocity.x = velocity.x / 1.1
+	else:
+		velocity.x = velocity.x / 1.05
 	
+	if Input.is_action_just_pressed("reset"):
+		position = startingPos
 
 func Player_Controlled():
 	var _falling = velocity.y > 0 and not is_on_floor()
@@ -135,7 +157,8 @@ func Player_Controlled():
 	var bullet = boolet.instance()
 	if Input.is_action_pressed("Shoot") and bam:
 		get_node("/root/Arena").add_child(bullet, true)
-		bullet.assign("P1")
+		bullet.assign(str($"."))
+		print('\n' + "PROJ SHOT FROM: " + str($".") + '\n')
 		bullet.global_position = position
 		bullet.rotation_degrees = $"/root/Arena/Player/NerdGun".rotation_degrees
 		$"FireRate".start()
@@ -165,13 +188,18 @@ func _on_FireRate_timeout():
 
 
 func _on_Area2D_area_entered(area):
-	match area.who:
-		"P1":
-			print("OUCH FUCK THAT HURT")
-		_:
-			print("i fucked up somehow")
-	area.queue_free()
-	$"/root/Arena/Player".bulletsPresent -= 1
+	print("ACTOR HIT: " + str($"."))
+	print("HIT BY: " + area.who + '\n')
+	if area.who.begins_with("Player"):
+		print("OUCH FUCK THAT HURT")
+		knockback += 1
+		velocity.x -= (get_angle_to(area.position) * 200) * knockback 
+		velocity.y -= (get_angle_to(area.position) * 200) * knockback
+		print(get_angle_to(area.position))
+		area.queue_free()
+		$"/root/Arena/Player".bulletsPresent -= 1
+	else:
+		print("FUCK")
 
 
 func _on_VisibilityNotifier2D_screen_exited():

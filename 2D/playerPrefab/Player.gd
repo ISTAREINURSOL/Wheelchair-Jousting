@@ -15,6 +15,7 @@ export onready var grav = ProjectSettings.get("physics/2d/default_gravity")
 export var speed = Vector2(300, 0) # How fast the player will move (pixels/sec).
 export var jumpDampen = 0.35
 export var momentumDampen = 0.1
+export var knockback = 500
 export var type = "Player"
 
 
@@ -30,7 +31,6 @@ var startingPos
 var canJump
 var boolFastFall
 var Dir
-var knockback = 1
 var bruh = "null"
 var who = "test"
 
@@ -78,6 +78,7 @@ func No_Control():
 	
 	if Input.is_action_just_pressed("reset"):
 		position = startingPos
+		velocity = Vector2.ZERO
 
 func Player_Controlled():
 	var _falling = velocity.y > 0 and not is_on_floor()
@@ -153,6 +154,7 @@ func Player_Controlled():
 
 	if Input.is_action_just_pressed("reset"):
 		position = startingPos
+		velocity = Vector2.ZERO
 		
 	var bullet = boolet.instance()
 	if Input.is_action_pressed("Shoot") and bam:
@@ -164,7 +166,6 @@ func Player_Controlled():
 		$"FireRate".start()
 		bulletsPresent += 1
 		bam = false
-		
 	$"NerdGun".update()
 
 func coyoteTime():
@@ -192,10 +193,13 @@ func _on_Area2D_area_entered(area):
 	print("HIT BY: " + area.who + '\n')
 	if area.who.begins_with("Player"):
 		print("OUCH FUCK THAT HURT")
-		knockback += 1
-		velocity.x -= (get_angle_to(area.position) * 200) * knockback 
-		velocity.y -= (get_angle_to(area.position) * 200) * knockback
-		print(get_angle_to(area.position))
+		knockback += 100
+		print(area.rotation_degrees)
+		velocity.x -= knockback * sin(area.get_rotation() - PI/2) # originally used rad2deg so i could use degrees but
+		velocity.y += knockback * sin(area.get_rotation())        # that used too many brackets and made this look like shit
+		print(area.get_rotation())
+		print("Vert Vel: " + str(knockback * sin(area.get_rotation()))) # same story as above
+		print("Hor Vel: " + str(knockback * sin(area.get_rotation() - PI/2)))
 		area.queue_free()
 		$"/root/Arena/Player".bulletsPresent -= 1
 	else:
@@ -206,4 +210,6 @@ func _on_VisibilityNotifier2D_screen_exited():
 	if position.y < 0 and position.x > 0 and position.x < 720:
 		pass
 	else:
+		print('\n' + "HAHAHA FUCK YOU")
+		print(position)
 		position = startingPos

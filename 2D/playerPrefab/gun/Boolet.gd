@@ -20,6 +20,10 @@ func _process(_delta):
 	if hidden:
 		queue_free()
 		$"/root/Arena/Player".bulletsPresent -= 1
+	if rotation_degrees >= 360:
+		rotation_degrees = 0
+	elif rotation_degrees <= -1:
+		rotation_degrees = 359
 
 func _on_VisibilityNotifier2D_screen_exited():
 	hidden = true

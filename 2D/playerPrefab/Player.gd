@@ -207,7 +207,7 @@ func _on_Area2D_area_entered(area):
 		print("Vert Vel: " + str(knockback * sin(area.get_rotation()))) # same story as above
 		print("Hor Vel: " + str(knockback * sin(area.get_rotation() - PI/2)))
 		area.queue_free()
-		$"/root/Arena/Player".bulletsPresent -= 1
+		bulletsPresent -= 1
 	else:
 		print("FUCK")
 

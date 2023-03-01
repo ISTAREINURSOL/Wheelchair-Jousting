@@ -1,48 +1,71 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=6 format=3 uid="uid://cjnvjmigbjx7b"]
 
-[ext_resource path="res://2D/playerPrefab/Player.tscn" type="PackedScene" id=1]
-[ext_resource path="res://2D/platformPrefab/platform.tscn" type="PackedScene" id=2]
-[ext_resource path="res://2D/platformPrefab/mainPlatform.tscn" type="PackedScene" id=3]
-[ext_resource path="res://2D/main.gd" type="Script" id=4]
-[ext_resource path="res://2D/GUI/FPS.gd" type="Script" id=5]
+[ext_resource type="PackedScene" uid="uid://bjjgt8m2v2awv" path="res://2D/playerPrefab/Player.tscn" id="1"]
+[ext_resource type="PackedScene" uid="uid://b1cjyesbxu4rp" path="res://2D/platformPrefab/platform.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://hjgqnlmmdx6u" path="res://2D/platformPrefab/mainPlatform.tscn" id="3"]
+[ext_resource type="Script" path="res://2D/main.gd" id="4"]
+[ext_resource type="Script" path="res://2D/GUI/FPS.gd" id="5"]
 
 [node name="Arena" type="Node2D"]
-script = ExtResource( 4 )
+script = ExtResource("4")
 
 [node name="FPS" type="RichTextLabel" parent="."]
-margin_left = 13.0
-margin_top = 14.0
-margin_right = 195.0
-margin_bottom = 179.0
-script = ExtResource( 5 )
+offset_left = 30.0
+offset_top = 14.0
+offset_right = 212.0
+offset_bottom = 179.0
+fit_content = true
+scroll_active = false
+script = ExtResource("5")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2( 639, 360 )
-scale = Vector2( 12.0784, 0.101059 )
+position = Vector2(639, 360)
+scale = Vector2(12.0784, 0.101059)
 
-[node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( 332, 496 )
-scale = Vector2( 0.75, 0.75 )
+[node name="Player" parent="." instance=ExtResource("1")]
+position = Vector2(332, 496)
+scale = Vector2(0.75, 0.75)
+speed = Vector2(300, 0)
+jumpDampen = 0.35
+momentumDampen = 0.1
+knockback = 500
+type = "Player"
+rocketJumpStr = 900
 
-[node name="CPU" parent="." instance=ExtResource( 1 )]
-position = Vector2( 950, 494 )
-scale = Vector2( 0.75, 0.75 )
-type = "Void"
+[node name="CPU" parent="." instance=ExtResource("1")]
+position = Vector2(638, 502)
+scale = Vector2(0.75, 0.75)
+speed = Vector2(300, 0)
+jumpDampen = 0.35
+momentumDampen = 0.1
+knockback = 500
+type = "CPU"
+rocketJumpStr = 900
+
+[node name="CPU2" parent="." instance=ExtResource("1")]
+position = Vector2(715, 126)
+scale = Vector2(0.75, 0.75)
+speed = Vector2(300, 0)
+jumpDampen = 0.35
+momentumDampen = 0.1
+knockback = 500
+type = "CPU"
+rocketJumpStr = 900
 
 [node name="platforms" type="Node" parent="."]
 
-[node name="leftPlatform" parent="platforms" instance=ExtResource( 2 )]
-position = Vector2( 233, 400 )
-scale = Vector2( 1.825, 0.823 )
+[node name="leftPlatform" parent="platforms" instance=ExtResource("2")]
+position = Vector2(233, 400)
+scale = Vector2(1.825, 0.823)
 
-[node name="rightPlatform" parent="platforms" instance=ExtResource( 2 )]
-position = Vector2( 1059, 400 )
-scale = Vector2( 1.825, 0.823 )
+[node name="rightPlatform" parent="platforms" instance=ExtResource("2")]
+position = Vector2(1059, 400)
+scale = Vector2(1.825, 0.823)
 
-[node name="topPlatform" parent="platforms" instance=ExtResource( 2 )]
-position = Vector2( 640, 180 )
-scale = Vector2( 2.825, 0.823 )
+[node name="topPlatform" parent="platforms" instance=ExtResource("2")]
+position = Vector2(640, 180)
+scale = Vector2(2.825, 0.823)
 
-[node name="GAMERFLOOR2" parent="." instance=ExtResource( 3 )]
-position = Vector2( 640, 720 )
-scale = Vector2( 10.1405, 3.10346 )
+[node name="GAMERFLOOR2" parent="." instance=ExtResource("3")]
+position = Vector2(640, 720)
+scale = Vector2(10.1405, 3.10346)

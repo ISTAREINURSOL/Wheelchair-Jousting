@@ -1,18 +1,18 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=4 format=3 uid="uid://b1cjyesbxu4rp"]
 
-[ext_resource path="res://2D/platformPrefab/platformStuff.gd" type="Script" id=1]
-[ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource type="Script" path="res://2D/platformPrefab/platformStuff.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://cvo5lg3p2w2wc" path="res://icon.png" id="2"]
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 41, 10 )
+[sub_resource type="RectangleShape2D" id="1"]
+size = Vector2(82, 20)
 
 [node name="StaticBody2D" type="StaticBody2D"]
 
-[node name="Sprite" type="Sprite" parent="."]
-scale = Vector2( 1.28067, 0.31125 )
-texture = ExtResource( 2 )
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(1.28067, 0.31125)
+texture = ExtResource("2")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 1 )
+shape = SubResource("1")
 one_way_collision = true
-script = ExtResource( 1 )
+script = ExtResource("1")

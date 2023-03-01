@@ -16,7 +16,7 @@ func _process(_delta):
 	pass
 
 func summonBoolet():
-	#var b = boolet.instance()
+	#var b = boolet.instantiate()
 	#add_child(b, true)
 	pass
 	

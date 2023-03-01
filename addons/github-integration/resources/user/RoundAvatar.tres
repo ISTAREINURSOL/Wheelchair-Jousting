@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" load_steps=5 format=2]
 
-[ext_resource path="res://addons/github-integration/resources/user/circle.png" type="Texture" id=1]
+[ext_resource path="res://addons/github-integration/resources/user/circle.png" type="Texture2D" id=1]
 
 [sub_resource type="VisualShaderNodeTexture" id=1]
 output_port_for_preview = 1
@@ -21,7 +21,7 @@ void vertex() {
 }
 
 void fragment() {
-// Texture:4
+// Texture2D:4
 	vec3 n_out4p0;
 	float n_out4p1;
 	{
@@ -30,7 +30,7 @@ void fragment() {
 		n_out4p1 = _tex_read.a;
 	}
 
-// Texture:3
+// Texture2D:3
 	vec4 tex_frg_3_read = texture(tex_frg_3, UV.xy);
 	vec3 n_out3p0 = tex_frg_3_read.rgb;
 	float n_out3p1 = tex_frg_3_read.a;
@@ -53,7 +53,7 @@ nodes/fragment/3/node = SubResource( 1 )
 nodes/fragment/3/position = Vector2( 0, 200 )
 nodes/fragment/4/node = SubResource( 2 )
 nodes/fragment/4/position = Vector2( 0, 80 )
-nodes/fragment/connections = PoolIntArray( 4, 0, 0, 0, 3, 1, 0, 1 )
+nodes/fragment/connections = PackedInt32Array( 4, 0, 0, 0, 3, 1, 0, 1 )
 
 [resource]
 shader = SubResource( 3 )

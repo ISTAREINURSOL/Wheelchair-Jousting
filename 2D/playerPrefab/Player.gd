@@ -6,45 +6,58 @@
 # YOU SHAMELESSLY STOLE FROM       #  
 ####################################
 
-extends KinematicBody2D
+extends CharacterBody2D
 
 const UP_DIRECTION = Vector2.UP
 
 
-export onready var grav = ProjectSettings.get("physics/2d/default_gravity")
-export var speed = Vector2(300, 0) # How fast the player will move (pixels/sec).
-export var jumpDampen = 0.35
-export var momentumDampen = 0.1
-export var type = "Player"
+@onready var grav = ProjectSettings.get("physics/2d/default_gravity")
+@export var speed = Vector2(300, 0) # How fast the player will move (pixels/sec).
+@export var jumpDampen = 0.35
+@export var momentumDampen = 0.1
+@export var knockback = 500
+@export var type = "Player"
 
 
-onready var boolet = preload("res://2D/playerPrefab/gun/boolet.tscn")
-var velocity = Vector2.ZERO #defines the velocity
+@onready var boolet = preload("res://2D/playerPrefab/gun/boolet.tscn")
 var rocketCharges = 2
 var once = false
 var bam = true
 var DashCool = true
 var SPEEDWOOOO = false
+var bulletsPresent = 0
 var startingPos
 var canJump
 var boolFastFall
 var Dir
-var bulletsPresent = 0
+var bruh = "null"
+var who = "test"
 
-export var rocketJumpStr = 900
+@export var rocketJumpStr = 900
 var screen_size # Size of the game window.
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	velocity = Vector2.ZERO #defines the velocity
 	startingPos = position
 	screen_size = get_viewport_rect().size
+	#OS.center_window()
 	canJump = false
 	match type:
 		"Player":
 			print("CLIENT / P1 SPAWNED")
 		"Void": #not assigned control
-			print("CPU / P2 SPAWNED")
+			print("VOID / P2 SPAWNED")
+		"CPU":
+			print("DIDNT CODE THAT YET DUMBASS")
+			print("VOID / P2 SPAWNED")
+			type = "Void"
+		_:
+			print("INVALID STRING DUMBASS")
+			print("FALLING BACK TO VOID BEHAVIOUR")
+			print("VOID / P2 SPAWNED")
+			type = "Void"
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -54,8 +67,21 @@ func _physics_process(delta):
 		"Player":
 			Player_Controlled()
 		"Void": #not assigned control
-			velocity = move_and_slide(velocity, UP_DIRECTION)
+			No_Control()
+
+func No_Control():
+	set_velocity(velocity)
+	set_up_direction(UP_DIRECTION)
+	move_and_slide()
+	velocity = velocity
+	if is_on_floor():
+		velocity.x = velocity.x / 1.1
+	else:
+		velocity.x = velocity.x / 1.05
 	
+	if Input.is_action_just_pressed("reset"):
+		position = startingPos
+		velocity = Vector2.ZERO
 
 func Player_Controlled():
 	var _falling = velocity.y > 0 and not is_on_floor()
@@ -111,7 +137,7 @@ func Player_Controlled():
 
 
 	if 	SPEEDWOOOO:
-		#yield(get_tree().create_timer(.75), "timeout")
+		#await get_tree().create_timer(.75).timeout
 		if is_on_floor():
 			speed.x = speed.x / 1.1 
 		else:
@@ -127,25 +153,29 @@ func Player_Controlled():
 	
 	fastFall()
 
-	velocity = move_and_slide(velocity, UP_DIRECTION)
+	set_velocity(velocity)
+	set_up_direction(UP_DIRECTION)
+	move_and_slide()
+	velocity = velocity
 
 	if Input.is_action_just_pressed("reset"):
 		position = startingPos
+		velocity = Vector2.ZERO
 		
-	var bullet = boolet.instance()
+	var bullet = boolet.instantiate()
 	if Input.is_action_pressed("Shoot") and bam:
 		get_node("/root/Arena").add_child(bullet, true)
-		bullet.assign("P1")
+		bullet.assign(str($"."))
+		print('\n' + "PROJ SHOT FROM: " + str($".") + '\n')
 		bullet.global_position = position
 		bullet.rotation_degrees = $"/root/Arena/Player/NerdGun".rotation_degrees
 		$"FireRate".start()
 		bulletsPresent += 1
 		bam = false
-		
 	$"NerdGun".update()
 
 func coyoteTime():
-	yield(get_tree().create_timer(.1), "timeout")
+	await get_tree().create_timer(.1).timeout
 	canJump = false
 
 func fastFall():
@@ -165,17 +195,27 @@ func _on_FireRate_timeout():
 
 
 func _on_Area2D_area_entered(area):
-	match area.who:
-		"P1":
-			print("OUCH FUCK THAT HURT")
-		_:
-			print("i fucked up somehow")
-	area.queue_free()
-	$"/root/Arena/Player".bulletsPresent -= 1
+	print("ACTOR HIT: " + str($"."))
+	print("HIT BY: " + area.who + '\n')
+	if area.who.begins_with("Player"):
+		print("OUCH FUCK THAT HURT")
+		knockback += 100
+		print(area.rotation_degrees)
+		velocity.x -= knockback * sin(area.get_rotation() - PI/2) # originally used rad_to_deg so i could use degrees but
+		velocity.y += knockback * sin(area.get_rotation())        # that used too many brackets and made this look like shit
+		print(area.get_rotation())
+		print("Vert Vel: " + str(knockback * sin(area.get_rotation()))) # same story as above
+		print("Hor Vel: " + str(knockback * sin(area.get_rotation() - PI/2)))
+		area.queue_free()
+		$"/root/Arena/Player".bulletsPresent -= 1
+	else:
+		print("FUCK")
 
 
 func _on_VisibilityNotifier2D_screen_exited():
 	if position.y < 0 and position.x > 0 and position.x < 720:
 		pass
 	else:
+		print('\n' + "HAHAHA FUCK YOU")
+		print(position)
 		position = startingPos

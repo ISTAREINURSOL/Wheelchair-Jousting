@@ -11,7 +11,7 @@
 
 # -----------------------------------------------
 
-tool
+@tool
 extends Node
 
 # saves and loads user datas from custom folder in user://github_integration/user_data.ud
@@ -45,7 +45,7 @@ func user_exists():
 	var file : File = File.new()
 	return (true if file.file_exists(directory+file_name) else false)
 
-func save(user : Dictionary, avatar : PoolByteArray, auth : String, token : String, mail : String) -> void:
+func save(user : Dictionary, avatar : PackedByteArray, auth : String, token : String, mail : String) -> void:
 	var file = File.new()
 	
 	if user!=null:
@@ -54,11 +54,11 @@ func save(user : Dictionary, avatar : PoolByteArray, auth : String, token : Stri
 			AUTH = auth
 			TOKEN = token
 			MAIL = mail
-			var formatting : PoolStringArray
+			var formatting : PackedStringArray
 			formatting.append(auth)                     #0
 			formatting.append(mail)                     #1
 			formatting.append(token)                    #2
-			formatting.append(JSON.print(user))         #3
+			formatting.append(JSON.stringify(user))         #3
 			formatting.append(plugin_version)           #4
 			file.store_csv_line(formatting)
 			file.close()
@@ -70,7 +70,7 @@ func save(user : Dictionary, avatar : PoolByteArray, auth : String, token : Stri
 	
 	header = ["Authorization: Token "+token]
 
-func save_avatar(avatar : PoolByteArray):
+func save_avatar(avatar : PackedByteArray):
 	var file : File = File.new()
 	if avatar == null:
 		return
@@ -103,9 +103,9 @@ func load_avatar():
 	else:
 		AVATAR = null
 
-func load_user() -> PoolStringArray :
+func load_user() -> PackedStringArray :
 	var file = File.new()
-	var content : PoolStringArray
+	var content : PackedStringArray
 	
 	if PluginSettings.debug:
 		print("[GitHub Integration] >> loading user profile, checking for existing logfile...")
@@ -127,7 +127,9 @@ func load_user() -> PoolStringArray :
 		AUTH = content[0]
 		MAIL = content[1]
 		TOKEN = content[2]
-		USER = JSON.parse(content[3]).result
+		var test_json_conv = JSON.new()
+		test_json_conv.parse(content[3]).result
+		USER = test_json_conv.get_data()
 		load_avatar()
 		
 		header = ["Authorization: Token "+TOKEN]

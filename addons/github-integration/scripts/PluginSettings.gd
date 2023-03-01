@@ -1,4 +1,4 @@
-tool
+@tool
 extends Node
 
 var directory_name = "github_integration"
@@ -95,7 +95,7 @@ func delete_all_files(path : String):
 	var directories = []
 	var dir : Directory = Directory.new()
 	dir.open(path)
-	dir.list_dir_begin(true,false)
+	dir.list_dir_begin() # TODOGODOT4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 	var file = dir.get_next()
 	while (file != ""):
 		if dir.current_is_dir():

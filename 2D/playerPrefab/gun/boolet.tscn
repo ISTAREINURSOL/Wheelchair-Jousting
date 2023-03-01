@@ -1,30 +1,30 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=4 format=3 uid="uid://dkdgiamj3q288"]
 
-[ext_resource path="res://sussy.png" type="Texture" id=1]
-[ext_resource path="res://2D/playerPrefab/gun/Boolet.gd" type="Script" id=2]
+[ext_resource type="Texture2D" uid="uid://d1n8c15t4yto4" path="res://sussy.png" id="1"]
+[ext_resource type="Script" path="res://2D/playerPrefab/gun/Boolet.gd" id="2"]
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 5.125, 9 )
+[sub_resource type="RectangleShape2D" id="1"]
+size = Vector2(9.80392, 18.6277)
 
 [node name="Projectile" type="Area2D"]
 z_index = -1
-script = ExtResource( 2 )
+script = ExtResource("2")
 
-[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
-position = Vector2( 95.7638, -13.9308 )
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(95.7638, -13.9308)
 rotation = 1.571
-scale = Vector2( 0.52521, 0.911583 )
+scale = Vector2(0.52521, 0.911583)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 96, -14 )
+position = Vector2(95.5001, -13.9999)
 rotation = 1.571
-scale = Vector2( 1.02, 1.02 )
-shape = SubResource( 1 )
+scale = Vector2(1.02, 1.02)
+shape = SubResource("1")
 
-[node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 96.5696, -14.0076 )
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(96.5696, -14.0076)
 rotation = 1.571
-scale = Vector2( 0.0130119, 0.024885 )
-texture = ExtResource( 1 )
+scale = Vector2(0.0130119, 0.024885)
+texture = ExtResource("1")
 
-[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]

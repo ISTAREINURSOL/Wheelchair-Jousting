@@ -1,4 +1,4 @@
-tool
+@tool
 extends Container
 
 enum ExtraOption { SAVE_AS, COPY, PASTE, RECENT }
@@ -25,13 +25,13 @@ var _param_map := {}
 var _syncing_ui := false # a hack since Range set_value emits value_changed
 var _category_names := {}
 
-onready var audio_player := $AudioStreamPlayer as AudioStreamPlayer
-onready var filename_label := find_node("Filename") as Label
-onready var save_button := find_node("Save") as Button
-onready var restore_button := find_node("Restore") as Button
-onready var extra_button := find_node("Extra") as MenuButton
-onready var version_button := find_node("VersionButton")
-onready var translator := $PluginTranslator
+@onready var audio_player := $AudioStreamPlayer as AudioStreamPlayer
+@onready var filename_label := find_child("Filename") as Label
+@onready var save_button := find_child("Save") as Button
+@onready var restore_button := find_child("Restore") as Button
+@onready var extra_button := find_child("Extra") as MenuButton
+@onready var version_button := find_child("VersionButton")
+@onready var translator := $PluginTranslator
 
 
 func _ready():
@@ -47,7 +47,7 @@ func _ready():
 	popup.add_item(translator.tr("Copy"), ExtraOption.COPY)
 	popup.add_item(translator.tr("Paste"), ExtraOption.PASTE)
 	popup.add_separator(translator.tr("Recently Generated"))
-	popup.connect("id_pressed", self, "_on_Extra_id_pressed")
+	popup.connect("id_pressed",Callable(self,"_on_Extra_id_pressed"))
 	
 	_category_names = {
 		SFXRConfig.Category.PICKUP_COIN: translator.tr("Pickup/Coin"),
@@ -59,12 +59,12 @@ func _ready():
 		SFXRConfig.Category.BLIP_SELECT: translator.tr("Blip/Select"),
 	}
 	
-	var params := find_node("Params") as Container
+	var params := find_child("Params") as Container
 	for category in params.get_children():
 		for control in category.get_children():
 			_param_map[control.parameter] = control
-			control.connect("param_changed", self, "_on_param_changed")
-			control.connect("param_reset", self, "_on_param_reset")
+			control.connect("param_changed",Callable(self,"_on_param_changed"))
+			control.connect("param_reset",Callable(self,"_on_param_reset"))
 	
 	_set_editing_file("")
 
@@ -75,7 +75,7 @@ func _notification(what: int):
 	
 	match what:
 		NOTIFICATION_ENTER_TREE, NOTIFICATION_THEME_CHANGED:
-			find_node("ScrollContainer").add_stylebox_override("bg", get_stylebox("bg", "Tree"))
+			find_child("ScrollContainer").add_theme_stylebox_override("bg", get_stylebox("bg", "Tree"))
 			
 			if extra_button:
 				var popup = extra_button.get_popup()
@@ -119,8 +119,8 @@ func _popup_confirm(content: String, callback: String, binds := []) -> void:
 	add_child(dialog)
 	dialog.dialog_text = content
 	dialog.window_title = translator.tr("SFXR Editor")
-	dialog.connect("confirmed", self, callback, binds)
-	dialog.connect("popup_hide", dialog, "queue_free")
+	dialog.connect("confirmed",Callable(self,callback).bind(binds))
+	dialog.connect("popup_hide",Callable(dialog,"queue_free"))
 	dialog.popup_centered()
 
 
@@ -129,7 +129,7 @@ func _popup_message(content: String) -> void:
 	add_child(dialog)
 	dialog.dialog_text = content
 	dialog.window_title = translator.tr("SFXR Editor")
-	dialog.connect("popup_hide", dialog, "queue_free")
+	dialog.connect("popup_hide",Callable(dialog,"queue_free"))
 	dialog.popup_centered()
 
 
@@ -139,8 +139,8 @@ func _popup_file_dialog(mode: int, callback: String) -> void:
 	dialog.access = EditorFileDialog.ACCESS_RESOURCES
 	dialog.mode = mode
 	dialog.add_filter("*.sfxr; %s" % translator.tr("SFXR Audio"))
-	dialog.connect("popup_hide", dialog, "queue_free")
-	dialog.connect("file_selected", self, callback)
+	dialog.connect("popup_hide",Callable(dialog,"queue_free"))
+	dialog.connect("file_selected",Callable(self,callback))
 	dialog.popup_centered_ratio()
 
 
@@ -158,7 +158,7 @@ func _restore_from_config(config: SFXRConfig) -> void:
 
 
 func _set_editing_file(path: String) -> int: # Error
-	if path.empty():
+	if path.is_empty():
 		_config.reset()
 		audio_player.stream = null
 	else:
@@ -176,7 +176,7 @@ func _set_editing_file(path: String) -> int: # Error
 func _set_modified(value: bool) -> void:
 	_modified = value
 	
-	var has_file := not _path.empty()
+	var has_file := not _path.is_empty()
 	var base = _path if has_file else translator.tr("Unsaved sound")
 	if _modified:
 		base += "(*)"
@@ -268,8 +268,8 @@ func _on_New_confirmed() -> void:
 
 
 func _on_Save_pressed():
-	if _path.empty():
-		_popup_file_dialog(EditorFileDialog.MODE_SAVE_FILE, "_on_SaveAsDialog_confirmed")
+	if _path.is_empty():
+		_popup_file_dialog(EditorFileDialog.FILE_MODE_SAVE_FILE, "_on_SaveAsDialog_confirmed")
 	else:
 		_config.save(_path)
 		plugin.get_editor_interface().get_resource_filesystem().scan_sources()
@@ -287,10 +287,10 @@ func _on_Load_pressed():
 	if _modified:
 		_popup_confirm(
 			translator.tr("There are unsaved changes.\nLoad anyway?"),
-			"_popup_file_dialog", [EditorFileDialog.MODE_OPEN_FILE, "_set_editing_file"]
+			"_popup_file_dialog", [EditorFileDialog.FILE_MODE_OPEN_FILE, "_set_editing_file"]
 		)
 	else:
-		_popup_file_dialog(EditorFileDialog.MODE_OPEN_FILE, "_set_editing_file")
+		_popup_file_dialog(EditorFileDialog.FILE_MODE_OPEN_FILE, "_set_editing_file")
 
 
 func _on_Extra_about_to_show():
@@ -304,7 +304,7 @@ func _on_Extra_about_to_show():
 		for i in count - first_recent_index:
 			popup.remove_item(count - 1 - i)
 	
-	if _config_recents.empty():
+	if _config_recents.is_empty():
 		popup.add_item(translator.tr("None"), ExtraOption.RECENT)
 		popup.set_item_disabled(popup.get_item_index(ExtraOption.RECENT), true)
 	else:
@@ -315,7 +315,7 @@ func _on_Extra_about_to_show():
 func _on_Extra_id_pressed(id: int) -> void:
 	match id:
 		ExtraOption.SAVE_AS:
-			_popup_file_dialog(EditorFileDialog.MODE_SAVE_FILE, "_on_SaveAsDialog_confirmed")
+			_popup_file_dialog(EditorFileDialog.FILE_MODE_SAVE_FILE, "_on_SaveAsDialog_confirmed")
 		
 		ExtraOption.COPY:
 			if not _config_clipboard:

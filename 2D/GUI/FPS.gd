@@ -12,16 +12,16 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	var Charges = str($"/root/Arena/Player".rocketCharges)
-	var Boosters = str($"/root/Arena/Player/Dash cooldown".is_stopped())
-	var Speed = str($"/root/Arena/Player".speed.x)
+	var Charges = str($"../Player".rocketCharges)
+	var Boosters = str($"../Player/Dash cooldown".is_stopped())
+	var Speed = str($"../Player".speed.x)
 	var Frames = str(Engine.get_frames_per_second())
-	var PosX = str(round($"/root/Arena/Player".position.x))
-	var PosY = str(round($"/root/Arena/Player".position.y))
-	var Rotate = str(round($"/root/Arena/Player/NerdGun".rotation_degrees))
-	var bulletsPresent = str($"/root/Arena/Player".bulletsPresent)
-	var knockback1 = str($"/root/Arena/Player".knockback)
-	var knockback2 = str($"/root/Arena/CPU".knockback)
-	var knockback3 = str($"/root/Arena/CPU2".knockback)
+	var PosX = str(round($"../Player".position.x))
+	var PosY = str(round($"../Player".position.y))
+	var Rotate = str(round($"../Player/NerdGun".rotation_degrees))
+	var bulletsPresent = str($"../Player".bulletsPresent)
+	var knockback1 = str($"../Player".knockback)
+	var knockback2 = str($"../CPU".knockback)
+	var knockback3 = str($"../CPU2".knockback)
 
 	text = Frames + '\n' + PosX + ", " + PosY + '\n' + "Boosters: " + Boosters + '\n' + "Charges Left: " + Charges + '\n' + "Speed: " + Speed + '\n' + Rotate + '\n' + "Entities: " + bulletsPresent + '\n' + "P1: " + knockback1 + '\n' + "P2: " + knockback2 + '\n' + "P3: " + knockback3

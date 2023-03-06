@@ -82,6 +82,7 @@ func No_Control():
 	if Input.is_action_just_pressed("reset"):
 		position = startingPos
 		velocity = Vector2.ZERO
+		knockback = 500
 
 func Player_Controlled():
 	var _falling = velocity.y > 0 and not is_on_floor()

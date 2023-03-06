@@ -25,32 +25,16 @@ scale = Vector2(12.0784, 0.101059)
 [node name="Player" parent="." instance=ExtResource("1")]
 position = Vector2(332, 496)
 scale = Vector2(0.75, 0.75)
-speed = Vector2(300, 0)
-jumpDampen = 0.35
-momentumDampen = 0.1
-knockback = 500
-type = "Player"
-rocketJumpStr = 900
 
 [node name="CPU" parent="." instance=ExtResource("1")]
 position = Vector2(638, 502)
 scale = Vector2(0.75, 0.75)
-speed = Vector2(300, 0)
-jumpDampen = 0.35
-momentumDampen = 0.1
-knockback = 500
 type = "CPU"
-rocketJumpStr = 900
 
 [node name="CPU2" parent="." instance=ExtResource("1")]
 position = Vector2(715, 126)
 scale = Vector2(0.75, 0.75)
-speed = Vector2(300, 0)
-jumpDampen = 0.35
-momentumDampen = 0.1
-knockback = 500
 type = "CPU"
-rocketJumpStr = 900
 
 [node name="platforms" type="Node" parent="."]
 

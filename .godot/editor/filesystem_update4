@@ -1,12 +1,4 @@
 res://default_env.tres
 res://2D/Arena.tscn
-res://addons/github-integration/resources/themes/GitHubTheme-Dark.tres
-res://addons/github-integration/resources/themes/GitHubTheme.tres
-res://2D/playerPrefab/gun/Boolet.gd
-res://2D/playerPrefab/Player.gd
 res://2D/playerPrefab/Player.tscn
-res://2D/platformPrefab/mainPlatform.tscn
-res://2D/platformPrefab/platform.tscn
 res://2D/playerPrefab/gun/boolet.tscn
-res://2D/main.gd
-res://2D/GUI/FPS.gd

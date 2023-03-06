@@ -8,3 +8,6 @@ lib/
 *.yml
 *.md
 *.zip
+
+# AAAAAAAA
+.godot/

@@ -6,6 +6,8 @@
 # YOU SHAMELESSLY STOLE FROM       #  
 ####################################
 
+# thanks me
+
 extends CharacterBody2D
 
 const UP_DIRECTION = Vector2.UP

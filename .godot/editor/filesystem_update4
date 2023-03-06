@@ -1,4 +1,3 @@
 res://default_env.tres
-res://2D/Arena.tscn
-res://2D/playerPrefab/Player.tscn
 res://2D/playerPrefab/gun/boolet.tscn
+res://2D/playerPrefab/Player.gd

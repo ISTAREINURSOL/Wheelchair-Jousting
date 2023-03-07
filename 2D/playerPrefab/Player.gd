@@ -14,7 +14,7 @@ const UP_DIRECTION = Vector2.UP
 
 
 @onready var grav = ProjectSettings.get("physics/2d/default_gravity")
-@export var speed = Vector2(300, 0) # How fast the player will move (pixels/sec).
+@export var speed = Vector2(450, 0) # How fast the player will move (pixels/sec).
 @export var jumpDampen = 0.35
 @export var momentumDampen = 0.1
 @export var knockback = 500
@@ -35,7 +35,7 @@ var Dir
 var bruh = "null"
 var who = "test"
 
-@export var rocketJumpStr = 900
+@export var rocketJumpStr = 1350
 var screen_size # Size of the game window.
 
 

@@ -170,7 +170,7 @@ func Player_Controlled():
 		get_node("/root/Arena").add_child(bullet, true)
 		bullet.assign(str($"."))
 		print('\n' + "PROJ SHOT FROM: " + str($".") + '\n')
-		bullet.global_position = position
+		bullet.global_position = $".".global_position
 		bullet.rotation_degrees = $"/root/Arena/Player/NerdGun".rotation_degrees
 		$"FireRate".start()
 		bulletsPresent += 1
@@ -210,7 +210,7 @@ func _on_Area2D_area_entered(area):
 		print("Vert Vel: " + str(knockback * sin(area.get_rotation()))) # same story as above
 		print("Hor Vel: " + str(knockback * sin(area.get_rotation() - PI/2)))
 		area.queue_free()
-		bulletsPresent -= 1
+		$"../Player".bulletsPresent -= 1
 	else:
 		print("FUCK")
 

@@ -4,19 +4,19 @@
 [ext_resource type="Script" path="res://2D/playerPrefab/gun/Boolet.gd" id="2"]
 
 [sub_resource type="RectangleShape2D" id="1"]
-size = Vector2(9.80392, 18.6277)
+size = Vector2(17.6465, 34.3139)
 
 [node name="Projectile" type="Area2D"]
 z_index = -1
 script = ExtResource("2")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
-position = Vector2(95.7638, -13.9308)
+position = Vector2(96.6076, -14.0244)
 rotation = 1.571
-scale = Vector2(0.52521, 0.911583)
+scale = Vector2(0.915839, 1.7491)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(95.5001, -13.9999)
+position = Vector2(96.5001, -13.9994)
 rotation = 1.571
 scale = Vector2(1.02, 1.02)
 shape = SubResource("1")
@@ -24,7 +24,7 @@ shape = SubResource("1")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(96.5696, -14.0076)
 rotation = 1.571
-scale = Vector2(0.0130119, 0.024885)
+scale = Vector2(0.0269326, 0.051508)
 texture = ExtResource("1")
 
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]

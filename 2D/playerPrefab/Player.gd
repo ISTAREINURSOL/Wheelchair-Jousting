@@ -35,7 +35,7 @@ var Dir
 var bruh = "null"
 var who = "test"
 
-@export var rocketJumpStr = 1350
+@export var rocketJumpStr = 900
 var screen_size # Size of the game window.
 
 
